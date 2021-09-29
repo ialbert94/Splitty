@@ -4,14 +4,14 @@ import { StyleSheet } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../../types';
-import BillInput from '../components/BillInput';
+import ItemInput from '../components/ItemInput';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
-      <BillInput 
-        label="Enter Bill"
+      <ItemInput 
+        label="Enter Item: "
         amount="4"
         placeholderText="$0"
       />

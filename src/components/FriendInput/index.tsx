@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import useColorScheme from '../../../hooks/useColorScheme';
 import { Text, View, TextInput } from '../Themed';
 import Colors from '../../constants/Colors';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
     section: {
@@ -26,34 +27,33 @@ const styles = StyleSheet.create({
     }
 });
 
-export interface BillInputProps {
-    label: string, 
-    amount: string,
-    placeholderText: string,
-    handleTextChange?: any
+export interface Friend {
+    name: string
+    handleNameChange: any
+    handleAddFriend: any
 }
 
-export default function ItemInput ({label, amount, placeholderText, handleTextChange} : BillInputProps) {
+
+export default function FriendInput ({name, handleNameChange, handleAddFriend} : Friend) {
     const colorScheme = useColorScheme();
     
     return (
         <View style={styles.section}>
-            <Text
-                style={styles.titleText}
-                lightColor="rgba(0,0,0,0.8)"
-                darkColor="rgba(255,255,255,0.8)">
-                {label}
-            </Text>
             <View style={styles.inputContainer}>
-            <TextInput
-                style={[ styles.textInput, { color: Colors[colorScheme].text }]}
-                placeholderTextColor="#666"
-                keyboardType='numeric'
-                returnKeyType='done'
-                placeholder={placeholderText}
-                defaultValue={amount}
-                onChangeText={handleTextChange}
-            />
+                <TextInput
+                    style={[ styles.textInput, { color: Colors[colorScheme].text }]}
+                    placeholderTextColor="#666"
+                    keyboardType='default'
+                    returnKeyType='done'
+                    placeholder={'Add Friend'}
+                    defaultValue={name}
+                    onChangeText={handleNameChange}
+                />
+                <MaterialIcons
+                    name='add'
+                    size={24}
+                    onPress={handleAddFriend}
+                />
             </View>
         </View>
     );

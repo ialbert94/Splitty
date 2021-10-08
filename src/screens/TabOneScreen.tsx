@@ -7,6 +7,7 @@ import { RootTabScreenProps } from '../../types';
 import ItemInput from '../components/ItemInput';
 import SplitOutput from '../containers/SplitOutput';
 import FriendInput, { Friend } from '../components/FriendInput';
+import FriendModel from '../components/FriendModal';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const [ bill, setBill ] = useState('0.00');
@@ -15,6 +16,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const [ splitTotal, setSplitTotal ] = useState('0.00');
   const [ name, setName ] = useState('');
   const [ friends, updateFriends ] = useState<Friend[]>([]);
+  const [ numberOfFriends, setNumberOfFriends ] = useState();
 
   const defaultValue = 0;
 
@@ -54,11 +56,18 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     const splitTotal = ((total + (tipPercentage / 100) * total) / splitCount).toFixed(2);
     setSplitTotal(splitTotal.toString());
   }, [bill, tip, split]);
-
+  console.log(numberOfFriends);
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
       <View style={styles.container}>
         <Text style={styles.title}>Tab One</Text>
+        <FriendModel 
+          setNumberOfFriends={setNumberOfFriends}
+        />
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.title}>Friends you have:</Text>
+          <Text style={styles.title}>{numberOfFriends}</Text>
+        </View>
         <FriendInput
           name={name}
           handleNameChange={handleNameChange}

@@ -57,6 +57,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     setSplitTotal(splitTotal.toString());
   }, [bill, tip, split]);
   console.log(numberOfFriends);
+  // Use FlatList to extend the number of friends you have
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
       <View style={styles.container}>

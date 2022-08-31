@@ -2,22 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, TextInput, View } from '../components/Themed';
 import { RootTabScreenProps } from '../../types';
-import ItemInput from '../components/ItemInput';
+import ItemInput, { Item } from '../components/ItemInput';
 import SplitOutput from '../containers/SplitOutput';
 import FriendInput, { Friend } from '../components/FriendInput';
 import FriendModel from '../components/FriendModal';
+import BillContainer from '../containers/Bill';
+import { MaterialIcons } from '@expo/vector-icons';
+import Colors from '../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  const [ bill, setBill ] = useState('0.00');
+  const [ bill, setBill ] = useState('');
   const [ tip, setTip ] = useState('10');
   const [ split, setSplit ] = useState(2);
   const [ splitTotal, setSplitTotal ] = useState('0.00');
   const [ name, setName ] = useState('');
   const [ friends, updateFriends ] = useState<Friend[]>([]);
   const [ numberOfFriends, setNumberOfFriends ] = useState();
-
+  const [ items, setItems ] = useState<Item[]>([]);
+  const [itemName, setItemName] = useState('');
+  const [amount, setAmount] = useState('');
+  const colorScheme = useColorScheme();
   const defaultValue = 0;
 
   const handleBillChange = (value: string) => {
@@ -39,6 +46,10 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       return split - 1;
     })
   };
+
+  const addItem = (itemToAdd: Item) => {
+    setItems([...items, itemToAdd])
+  }
 
   const handleNameChange = (name : string) => {
     setName(name);
@@ -74,32 +85,62 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           handleNameChange={handleNameChange}
           handleAddFriend={handleAddFriend}
         />
-        <ItemInput 
-          label='Enter Item: '
-          amount={bill}
-          placeholderText='$0'
-          handleTextChange={handleBillChange}
-          /> 
-        <ItemInput 
+        <View style={styles.inputContainer}>
+          <TextInput
+              style={[ styles.textInput, { color: Colors[colorScheme].text }]}
+              placeholderTextColor="#666"
+              keyboardType='default'
+              returnKeyType='done'
+              placeholder={'Add Item'}
+              defaultValue={name}
+              onChangeText={handleNameChange}
+          />
+          <MaterialIcons
+              name='add'
+              size={24}
+              onPress={() => addItem({itemName: '', amount: ''})}
+          />
+            </View>
+        {items.map((item) => {
+          return(
+            <ItemInput 
+              itemName={item.itemName}
+              amount={item.amount}
+            />
+          )
+        })}
+        {/* <ItemInput 
           label='Tip(%): '
           amount={tip}
           placeholderText='0%'
           handleTextChange={handleTipChange}
-          />
+          /> */}
         <SplitOutput
           split={split}
           splitTotal={splitTotal}
           handleSplitAdd={handleSplitAdd}
           handleSplitRemove={handleSplitRemove}
           />
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-        <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+          {/* <BillContainer items={items}></BillContainer> */}
+        {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
       </View>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  inputContainer: {
+    padding: 10,
+    marginVertical: 10,
+    flexDirection: 'row',
+    width: 200,
+    justifyContent: 'space-between'
+  },
+  textInput: {
+      fontSize: 18,
+      fontWeight: '700'
+  },
   splitContainer: {
     flex: 1,
     paddingTop: 40,

@@ -58,7 +58,7 @@ export default function FriendModel({ setNumberOfFriends } : any) {
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.textStyle}>Enter Friends</Text>
+        <Text style={styles.textStyle}>Split Bill</Text>
       </Pressable>
     </View>
   );

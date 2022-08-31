@@ -1,14 +1,14 @@
 import React, { Props } from 'react';
 import { StyleSheet } from 'react-native';
 import useColorScheme from '../../../hooks/useColorScheme';
-import { Text, View, TextInput } from '../Themed';
+import { View, TextInput } from '../Themed';
 import Colors from '../../constants/Colors';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
     section: {
-        padding: 5,
-        marginVertical: 5,
+        padding: 10,
+        marginVertical: 10,
         flexDirection: 'row'
     },
     inputContainer: {
@@ -34,7 +34,7 @@ export interface Friend {
 }
 
 
-export default function FriendInput ({name, handleNameChange, handleAddFriend} : Friend) {
+export default function BillContainer ({name, handleNameChange, handleAddFriend} : Friend) {
     const colorScheme = useColorScheme();
     
     return (

@@ -1,24 +1,16 @@
-import React, { Props } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import useColorScheme from '../../../hooks/useColorScheme';
 import { Text, View, TextInput } from '../Themed';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-    section: {
-        padding: '10px',
-        marginVertical: '10',
-        flexDirection: 'row'
-    },
     inputContainer: {
+        padding: 5,
+        marginVertical: 5,
         flexDirection: 'row',
-        alignItems: 'center'
-    },
-    titleText: {
-        fontSize: 18,
-        color: '#616161',
-        letterSpacing: 1.5,
-        fontWeight: '700'
+        width: 200,
+        justifyContent: 'space-between'
     },
     textInput: {
         fontSize: 18,
@@ -26,35 +18,38 @@ const styles = StyleSheet.create({
     }
 });
 
-export interface BillInputProps {
-    label: string, 
-    amount: string,
-    placeholderText: string,
-    handleTextChange?: any
+export interface Item {
+    itemName: string
+    amount: string
+    setItemName?: any
+    setAmount?: any
 }
 
-export default function ItemInput ({label, amount, placeholderText, handleTextChange} : BillInputProps) {
+export default function ItemInput ({itemName, amount, setItemName, setAmount} : Item) {
+
     const colorScheme = useColorScheme();
-    
+    // const lightColor = "rgba(0,0,0,0.8)";
+    // const darkColor = "rgba(255,255,255,0.8)";
     return (
-        <View style={styles.section}>
-            <Text
-                style={styles.titleText}
-                lightColor="rgba(0,0,0,0.8)"
-                darkColor="rgba(255,255,255,0.8)">
-                {label}
-            </Text>
-            <View style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
+            <TextInput
+                style={[ styles.textInput, { color: Colors[colorScheme].text }]}
+                placeholderTextColor="#666"
+                keyboardType='default'
+                returnKeyType='done'
+                placeholder={'Enter Item...'}
+                value={itemName}
+                onChangeText={(name) => setItemName(name)}
+            /> 
             <TextInput
                 style={[ styles.textInput, { color: Colors[colorScheme].text }]}
                 placeholderTextColor="#666"
                 keyboardType='numeric'
                 returnKeyType='done'
-                placeholder={placeholderText}
-                defaultValue={amount}
-                onChangeText={handleTextChange}
+                placeholder={'$'}
+                value={amount}
+                onChangeText={(amount) => setAmount(amount)}
             />
-            </View>
         </View>
     );
 };
